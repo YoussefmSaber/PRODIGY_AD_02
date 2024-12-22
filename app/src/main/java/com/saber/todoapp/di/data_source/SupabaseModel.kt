@@ -17,7 +17,20 @@ object SupabaseModule {
 
     @Provides
     @Singleton
-    fun provideSupabase(): SupabaseClient {
+    fun provideAuthApiService(supabaseClient: SupabaseClient): AuthApiService {
+        return AuthApiServiceImpl(supabaseClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideTaskApiService(supabaseClient: SupabaseClient): TaskApiService {
+        return TaskApiServiceImpl(supabaseClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSupabaseClient(): SupabaseClient {
+        // Initialize Supabase client (this is just an example)
         return createSupabaseClient(
             supabaseKey = BuildConfig.API_KEY,
             supabaseUrl = BuildConfig.API_URL

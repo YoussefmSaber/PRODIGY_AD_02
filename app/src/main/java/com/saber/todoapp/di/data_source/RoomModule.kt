@@ -1,6 +1,7 @@
 package com.saber.todoapp.di.data_source
 
 import android.content.Context
+import androidx.room.Room
 import com.saber.todoapp.data.data_source.db.AppDatabase
 import com.saber.todoapp.data.data_source.db.TaskDao
 import dagger.Module
@@ -16,13 +17,15 @@ object RoomModule {
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase {
-        return AppDatabase.getDatabase(context)
+    fun provideTaskDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabase::class.java, "task_db")
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
     @Singleton
-    fun provideTaskDao(appDatabase: AppDatabase): TaskDao {
-        return appDatabase.taskDao()
+    fun provideTaskDao(taskDatabase: AppDatabase): TaskDao {
+        return taskDatabase.taskDao()
     }
 }
