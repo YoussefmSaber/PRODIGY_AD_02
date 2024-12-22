@@ -76,8 +76,6 @@ The project follows a clean architecture approach with well-defined layers and m
 ```
 app
 |-- di                             // Dependency Injection modules
-|    |-- auth                       // Auth-related DI modules
-|    |    |-- AuthModule.kt          // Provides Auth repository and use case
 |    |-- task                       // Task-related DI modules
 |    |    |-- TaskModule.kt          // Provides Task repository and use case
 |    |-- data_source                // Data source modules (API, DB)
@@ -85,16 +83,15 @@ app
 |    |    |-- RoomModule.kt          // Provides Room DB and DAO services
 |
 |-- data                           // Data sources (Room, Supabase)
-|    |-- repository                 // Repository layer
-|    |    |-- AuthRepository.kt     // Auth repository interface
-|    |    |-- TaskRepository.kt     // Task repository interface
-|    |-- data_source                // Data sources (API, DB)
-|    |    |-- api                   // API services (Supabase API)
-|    |    |    |-- AuthApiService.kt    // Auth API service interface
-|    |    |    |-- TaskApiService.kt    // Task API service interface
-|    |    |-- db                    // Room DB services
-|    |    |    |-- TaskDao.kt       // Task DAO interface
-|    |    |    |-- TaskDatabase.kt  // Room database setup
+|    |-- repository                  // Repository layer
+|    |    |-- AuthRepository.kt      // Auth repository interface
+|    |    |-- TaskRepository.kt      // Task repository interface
+|    |-- data_source                 // Data sources (API, DB)
+|    |    |-- db                     // Room DB services
+|    |    |    |-- TaskDao.kt        // Task DAO interface
+|    |    |    |-- TaskDatabase.kt   // Room database setup
+|    |    |    |-- TaskEntity.kt     // Room database's table
+|
 |-- domain                         // Business logic (Use cases, Repositories)
 |    |-- model                      // Data models (TaskModel, AuthSession, etc.)
 |    |    |-- TaskModel.kt           // Task data model
