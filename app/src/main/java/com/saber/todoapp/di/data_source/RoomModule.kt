@@ -18,14 +18,14 @@ object RoomModule {
     @Provides
     @Singleton
     fun provideTaskDatabase(@ApplicationContext context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, "task_db")
+        return Room.databaseBuilder(context, AppDatabase::class.java, "task_database")
             .fallbackToDestructiveMigration()
             .build()
     }
 
     @Provides
     @Singleton
-    fun provideTaskDao(taskDatabase: AppDatabase): TaskDao {
-        return taskDatabase.taskDao()
+    fun provideTaskDao(database: AppDatabase): TaskDao {
+        return database.taskDao()
     }
 }

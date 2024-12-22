@@ -1,6 +1,9 @@
 package com.saber.todoapp.di.data_source
 
 import com.saber.todoapp.BuildConfig
+import com.saber.todoapp.data.repository.AuthRepository
+import com.saber.todoapp.domain.repository.AuthRepositoryImpl
+import com.saber.todoapp.domain.usecase.auth.AuthUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,18 +20,6 @@ object SupabaseModule {
 
     @Provides
     @Singleton
-    fun provideAuthApiService(supabaseClient: SupabaseClient): AuthApiService {
-        return AuthApiServiceImpl(supabaseClient)
-    }
-
-    @Provides
-    @Singleton
-    fun provideTaskApiService(supabaseClient: SupabaseClient): TaskApiService {
-        return TaskApiServiceImpl(supabaseClient)
-    }
-
-    @Provides
-    @Singleton
     fun provideSupabaseClient(): SupabaseClient {
         // Initialize Supabase client (this is just an example)
         return createSupabaseClient(
@@ -38,5 +29,17 @@ object SupabaseModule {
             install(Auth)
             install(Postgrest)
         }
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(supabaseClient: SupabaseClient): AuthRepository {
+        return AuthRepositoryImpl(supabaseClient)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAuthUseCase(authRepository: AuthRepository): AuthUseCase {
+        return AuthUseCase(authRepository)
     }
 }
