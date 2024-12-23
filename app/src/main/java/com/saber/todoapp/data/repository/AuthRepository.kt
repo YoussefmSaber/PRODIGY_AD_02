@@ -4,5 +4,7 @@ import com.saber.todoapp.domain.model.AuthSession
 
 interface AuthRepository {
     // Example function
-    suspend fun authenticate(username: String, password: String): AuthSession
+   suspend fun login(userEmail: String, userPassword: String)
+   suspend fun register(userEmail: String, userPassword: String, name: String)
+   suspend fun logout()
 }

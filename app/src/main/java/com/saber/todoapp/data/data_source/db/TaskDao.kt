@@ -18,7 +18,7 @@ interface TaskDao {
     @Delete
     suspend fun deleteTask(task: Task)
 
-    @Query("SELECT * FROM tasks ORDER BY createdAt DESC")
+    @Query("SELECT * FROM tasks")
     suspend fun getAllTasks(): List<Task>
 
     @Query("SELECT * FROM tasks WHERE id = :taskId LIMIT 1")
