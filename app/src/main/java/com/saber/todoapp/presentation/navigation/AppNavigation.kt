@@ -37,12 +37,12 @@ fun ApplicationNavigation(navController: NavHostController) {
         navigation<App>(startDestination = TaskList) {
             composable<TaskList> {
                 navController.navigate(TaskDetails("1"))
-                navController.navigate(Settings)
+                navController.navigate(Profile)
             }
             composable<TaskDetails> {
                 navController.popBackStack()
             }
-            composable<Settings> {
+            composable<Profile> {
                 navController.popBackStack()
             }
             composable<EditTask> {

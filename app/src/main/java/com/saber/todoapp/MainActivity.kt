@@ -14,8 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
+import com.saber.todoapp.presentation.navigation.ApplicationNavigation
 import com.saber.todoapp.presentation.viewmodel.TaskViewModel
 import com.saber.todoapp.ui.theme.TodoAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,22 +30,13 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TodoAppTheme {
+                val navController = rememberNavController()
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    innerPadding
                     Column(modifier = Modifier.padding(innerPadding)) {
-                        TaskScreen()
+                        ApplicationNavigation(navController)
                     }
                 }
             }
         }
     }
-}
-
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
-@Composable
-fun TaskScreen(viewModel: TaskViewModel = hiltViewModel()) {
-    val tasks = viewModel.tasks.collectAsState()
-    viewModel.getTasks()
-    Text(text = tasks.value.toString())
-
 }

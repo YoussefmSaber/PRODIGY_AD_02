@@ -33,7 +33,7 @@ data class TaskDetails(val taskId: String)
 object TaskList
 
 @Serializable
-object Settings
+object Profile
 
 @Serializable
 data class EditTask(val taskId: String)
