@@ -20,7 +20,6 @@ import javax.inject.Inject
 class TaskUseCase @Inject constructor(private val taskRepository: TaskRepository) {
 
     fun getTasks(): Flow<Resource<List<TaskModel>>> = flow {
-        Log.d("Use case", "getTasks: this have called alot")
         try {
             emit(Resource.Loading())
             val res = taskRepository.getTasks()
@@ -30,7 +29,7 @@ class TaskUseCase @Inject constructor(private val taskRepository: TaskRepository
         } catch (e: IOException) {
             emit(Resource.Error("Couldn't reach server. Check your internet connection."))
         }
-    }.distinctUntilChanged() // Ensure the flow emits only when data changes
+    }
 
     fun getTaskById(taskId: Long): Flow<Resource<Task>> = flow {
         try {
@@ -69,7 +68,6 @@ class TaskUseCase @Inject constructor(private val taskRepository: TaskRepository
     }
 
     fun deleteTask(task: TaskModel): Flow<Resource<Unit>> = flow {
-
         try {
             emit(Resource.Loading())
             val res = taskRepository.deleteTask(task)
