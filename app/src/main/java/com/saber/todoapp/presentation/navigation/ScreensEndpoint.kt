@@ -2,38 +2,17 @@ package com.saber.todoapp.presentation.navigation
 
 import kotlinx.serialization.Serializable
 
-@Serializable
-object Auth
+@Serializable // Annotation to make the object serializable
+object App // Represents the main application navigation
 
-@Serializable
-object Onboarding
+@Serializable // Annotation to make the data class serializable
+data class TaskDetails(val taskId: Long) // Data class to hold task details with a taskId
 
-@Serializable
-object Login
+@Serializable // Annotation to make the data class serializable
+data class EditTask(val taskId: Long) // Data class to hold task details for editing with a taskId
 
-@Serializable
-object Register
+@Serializable // Annotation to make the object serializable
+object TaskList // Represents the task list screen
 
-@Serializable
-object ForgotPassword
-
-@Serializable
-object ResetPassword
-
-@Serializable
-object VerifyEmail
-
-@Serializable
-object App
-
-@Serializable
-data class TaskDetails(val taskId: String)
-
-@Serializable
-object TaskList
-
-@Serializable
-object Profile
-
-@Serializable
-data class EditTask(val taskId: String)
+@Serializable // Annotation to make the object serializable
+object Profile // Represents the profile screen

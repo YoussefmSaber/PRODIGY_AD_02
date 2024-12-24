@@ -12,19 +12,15 @@ espressoCore = "3.6.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.9.3"
 composeBom = "2024.12.01"
-ktorVersion = "3.0.2"
 roomRuntime = "2.6.1"
 composeNavigation = "2.8.5"
 kotlinxSerializationJson = "1.7.3"
-coreSplashscreen = "1.0.1"
 uiTextGoogleFonts = "1.7.6"
 ksp = "2.0.20-1.0.25"
 
 [libraries]
-androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
-exp4j = { module = "net.objecthunter:exp4j", version.ref = "exp4j" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroidCompiler" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -47,24 +43,10 @@ androidx-ui-text-google-fonts = { module = "androidx.compose.ui:ui-text-google-f
 #kotlin serialization
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
-#splash screen
-androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
-
 #room
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
-
-#supabase
-auth-kt = { module = "io.github.jan-tennert.supabase:auth-kt" }
-realtime-kt = { module = "io.github.jan-tennert.supabase:realtime-kt" }
-postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt" }
-
-#ktor
-ktor-client-android = { module = "io.ktor:ktor-client-android", version.ref = "ktorVersion" }
-ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktorVersion" }
-ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktorVersion" }
-ktor-client-serialization = { module = "io.ktor:ktor-client-serialization", version.ref = "ktorVersion" }
 
 # Navigation
 navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "composeNavigation" }

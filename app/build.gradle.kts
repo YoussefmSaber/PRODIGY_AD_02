@@ -24,10 +24,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    val properties = Properties()
-    properties.load(rootProject.file("local.properties").inputStream())
-    properties.getProperty("API_URL")
-    properties.getProperty("API_KEY")
+
 
     buildTypes {
         release {
@@ -36,10 +33,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        debug {
-            buildConfigField("String", "API_URL", properties.getProperty("API_URL"))
-            buildConfigField("String", "API_KEY", properties.getProperty("API_KEY"))
         }
     }
     compileOptions {
@@ -75,38 +68,19 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
-    // constraint layout
-    implementation(libs.androidx.constraintlayout.compose)
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-    // Math expression parser
-    implementation(libs.exp4j)
 
     // Navigation
     implementation(libs.navigation.compose)
-
-    // Splash API
-    implementation(libs.androidx.core.splashscreen)
-
-    // Supabase
-    implementation(platform("io.github.jan-tennert.supabase:bom:3.0.3"))
-    implementation(libs.auth.kt)
-    implementation(libs.realtime.kt)
-    implementation(libs.postgrest.kt)
 
     // Google fonts
     implementation(libs.androidx.ui.text.google.fonts)
 
     // Kotlin serialization
     implementation(libs.kotlinx.serialization.json)
-
-    // Ktor
-    implementation(libs.ktor.client.core)
-    implementation(libs.ktor.client.android)
-    implementation(libs.ktor.client.serialization)
-    implementation(libs.ktor.client.logging)
 
     // Room
     implementation(libs.androidx.room.runtime)

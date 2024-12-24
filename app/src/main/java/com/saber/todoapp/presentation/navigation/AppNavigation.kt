@@ -5,39 +5,23 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.saber.todoapp.presentation.screens.tasks.AddEditTaskScreen
+import com.saber.todoapp.presentation.screens.tasks.TasksScreen
+import com.saber.todoapp.presentation.viewmodel.TaskViewModel
 
 @Composable
-fun ApplicationNavigation(navController: NavHostController) {
-    NavHost(navController, startDestination = Auth) {
-        navigation<Auth>(startDestination = Onboarding) {
-            composable<Onboarding> {
-                navController.navigate(Login)
-            }
-            composable<Login> {
-                navController.navigate(Register)
-                navController.navigate(ForgotPassword)
-                navController.navigate(App)
-            }
-            composable<Register> {
-                navController.navigate(Login)
-            }
-            composable<ForgotPassword> {
-                navController.popBackStack()
-                navController.navigate(VerifyEmail)
-            }
-            composable<VerifyEmail> {
-                navController.popBackStack()
-                navController.navigate(ResetPassword)
-            }
-            composable<ResetPassword> {
-                navController.popBackStack()
-                navController.navigate(Login)
-            }
-        }
+fun ApplicationNavigation(navController: NavHostController, viewModel: TaskViewModel) {
+    NavHost(navController, startDestination = App) {
         navigation<App>(startDestination = TaskList) {
             composable<TaskList> {
-                navController.navigate(TaskDetails("1"))
-                navController.navigate(Profile)
+                TasksScreen(
+                    viewModel,
+                    navigateToTaskDetails = { taskId ->
+                        navController.navigate(TaskDetails(taskId))
+                    },
+                    navigateToAddTask = {
+                        navController.navigate(EditTask(-1))
+                    })
             }
             composable<TaskDetails> {
                 navController.popBackStack()
@@ -46,7 +30,7 @@ fun ApplicationNavigation(navController: NavHostController) {
                 navController.popBackStack()
             }
             composable<EditTask> {
-                navController.popBackStack()
+                AddEditTaskScreen()
             }
         }
     }

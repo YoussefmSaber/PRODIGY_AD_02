@@ -1,52 +1,82 @@
 package com.saber.todoapp.presentation.viewmodel
 
-import android.os.Build
-import androidx.annotation.RequiresExtension
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.saber.todoapp.common.Resource
 import com.saber.todoapp.data.data_source.db.Task
-import com.saber.todoapp.domain.model.TaskModel
-import com.saber.todoapp.domain.model.toTask
-import com.saber.todoapp.domain.usecase.task.TaskUseCase
+import com.saber.todoapp.domain.repository.TaskRepositoryImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
-@HiltViewModel
-class TaskViewModel @Inject constructor(
-    private val taskUseCase: TaskUseCase
-) : ViewModel() {
+@HiltViewModel // Annotation to mark this ViewModel for dependency injection with Hilt
+class TaskViewModel @Inject constructor( // Constructor injection for TaskUseCase
+    private val taskRepositoryImpl: TaskRepositoryImpl// Use case for task-related operations
+) : ViewModel() { // Inherit from ViewModel
 
-    private val _tasks = MutableStateFlow<List<TaskModel>>(emptyList())
-    val tasks: StateFlow<List<TaskModel>> = _tasks
+    private val _tasks =
+        MutableStateFlow<List<Task>>(emptyList()) // Mutable state flow to hold the list of tasks
+    val tasks: StateFlow<List<Task>> = _tasks // Public immutable state flow for tasks
+
+    init {
+        viewModelScope.launch {
+            val task = Task(0, "Test Task", "Description", "High", "Pending", false)
+            taskRepositoryImpl.addTask(task)
+            val tasks = taskRepositoryImpl.getTasks()
+            Log.d("TestViewModel", "Tasks in DB: $tasks")
+        }
+    }
 
     fun getTasks() {
-        viewModelScope.launch(Dispatchers.IO) {
-            taskUseCase.getTasks()
+        viewModelScope.launch {
+            taskRepositoryImpl.getTasks()
                 .collect { resource ->
-                    _tasks.value = resource.data ?: emptyList()
+                    when (resource) {
+                        is Resource.Success -> {
+                            _tasks.value = resource.data ?: emptyList()
+                        }
+
+                        is Resource.Error -> {
+                            // Log or handle the error
+                            Log.e("TaskViewModel", "Error fetching tasks: ${resource.message}")
+                        }
+
+                        is Resource.Loading -> {
+                            // Optionally handle loading state
+                            _tasks.value = emptyList()
+                        }
+                    }
                 }
         }
     }
 
-    fun addTask(taskModel: TaskModel) {
+    // Launch a coroutine in the default dispatcher
+    fun addTask(taskModel: Task) {
         viewModelScope.launch {
-            taskUseCase.addTask(taskModel).collect { resource ->
-                // Handle task addition result here
-            }
-        }
-    }
+            taskRepositoryImpl.addTask(taskModel)
+                .collect { resource ->
+                    when (resource) {
+                        is Resource.Success -> {
+                            // Optionally log success
+                            Log.d(
+                                "TaskViewModel",
+                                "Task added successfully: ${resource.data}"
+                            )
+                        }
 
-    fun deleteTask(taskModel: TaskModel) {
-        viewModelScope.launch {
-            taskUseCase.deleteTask(taskModel).collect { resource ->
-                // Handle task deletion result here
-            }
+                        is Resource.Error -> {
+                            Log.e("TaskViewModel", "Error adding task: ${resource.message}")
+                        }
+
+                        is Resource.Loading -> {
+                            // Optionally handle loading state
+                        }
+                    }
+                }
+            getTasks() // Fetch updated tasks
         }
     }
 }

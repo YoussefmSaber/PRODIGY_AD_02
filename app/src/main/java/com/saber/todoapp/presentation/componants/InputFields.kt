@@ -1,4 +1,4 @@
-package com.example.foodrecipe.presentation.componants
+package com.saber.todoapp.presentation.componants
 
 import android.util.Log
 import androidx.compose.animation.AnimatedContent
@@ -205,93 +205,4 @@ fun LoginInputFields(
         onValueChange = { passwordState.value = it },
         isPassword = true
     )
-}
-
-@Composable
-fun OTPTextField(
-    otpValue: MutableState<String>,
-) {
-    BasicTextField(
-        value = otpValue.value,
-        onValueChange = {
-            if (it.length <= 6) {
-                otpValue.value = it
-            }
-        },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
-        modifier = Modifier.fillMaxWidth(),
-        decorationBox = {
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                repeat(6) { index ->
-                    val char = when {
-                        index >= otpValue.value.length -> ""
-                        else -> otpValue.value[index].toString()
-                    }
-                    val isFocused = otpValue.value.length == index
-                    Text(
-                        text = char,
-                        modifier = Modifier
-                            .border(
-                                if (isFocused) 2.dp
-                                else 1.dp,
-                                if (isFocused) Green else Gray,
-                                RoundedCornerShape(25)
-                            )
-                            .width(50.dp)
-                            .height(55.dp)
-                            .padding(16.dp),
-                        textAlign = TextAlign.Center
-                    )
-                    Spacer(Modifier.width(8.dp))
-                }
-            }
-        }
-    )
-}
-
-@Composable
-fun SearchInputField(
-    searchQuery: String = "",
-    onQueryChanged: (String) -> Unit = {},
-    navigateToSearch: () -> Unit = {},
-    maxWidth: Float = 0.8F
-) {
-    OutlinedTextField(
-        value = searchQuery,
-        onValueChange = onQueryChanged,
-        maxLines = 1,
-        modifier = Modifier
-            .background(White, shape = RoundedCornerShape(25))
-            .fillMaxWidth(maxWidth)
-            .clickable {
-                navigateToSearch()
-            },
-        textStyle = TextStyle(fontWeight = FontWeight.Normal),
-        shape = RoundedCornerShape(25),
-        colors = OutlinedTextFieldDefaults.colors(
-            focusedLeadingIconColor = Green,
-            unfocusedLeadingIconColor = Gray,
-            focusedBorderColor = Green,
-            unfocusedBorderColor = Gray,
-        ),
-        singleLine = true,
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        placeholder = {
-            Text(
-                "Search recipe",
-                fontWeight = FontWeight.Normal,
-                color = Gray
-            )
-        },
-        leadingIcon = {
-            Icon(
-                imageVector = Iconly.`Search-outline`,
-                contentDescription = "Search icon",
-            )
-        },
-
-        )
 }
