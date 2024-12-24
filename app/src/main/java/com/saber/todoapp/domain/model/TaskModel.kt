@@ -12,12 +12,14 @@ data class TaskModel(
     val priority: String,
     val status: String,
     @SerialName("is_completed")
-    val isCompleted: Boolean
+    val isCompleted: Boolean,
+    @SerialName("task_db_id")
+    val taskId: Long
 )
 
 fun TaskModel.toTask(): Task {
     return Task(
-        id = 0,
+        id = taskId,
         title = this.title,
         description = this.description,
         priority = this.priority,

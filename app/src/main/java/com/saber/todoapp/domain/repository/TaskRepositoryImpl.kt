@@ -1,5 +1,6 @@
 package com.saber.todoapp.domain.repository
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import com.saber.todoapp.data.data_source.db.TaskDao
@@ -21,12 +22,12 @@ class TaskRepositoryImpl @Inject constructor(
     override suspend fun getTasks(): List<TaskModel> {
 //         Example: Fetch tasks from the database or API
         return if (NetworkUtils.isNetworkAvailable(context)) {
-        val taskFromApi = supabaseClient.from("Task").select().decodeList<TaskModel>()
+            val taskFromApi = supabaseClient.from("Task").select().decodeList<TaskModel>()
             taskFromApi.map { task ->
                 taskDao.insertTask(task.toTask())
             }
-        Log.d("TaskRepositoryImpl reciving", "getTasks: $taskFromApi")
-        return taskFromApi
+            Log.d("TaskRepositoryImpl reciving", "getTasks: $taskFromApi")
+            return taskFromApi
         } else {
             taskDao.getAllTasks().map {
                 TaskModel(
@@ -35,7 +36,8 @@ class TaskRepositoryImpl @Inject constructor(
                     description = it.description ?: "",
                     priority = "",
                     status = "",
-                    isCompleted = false
+                    isCompleted = false,
+                    taskId = it.id
                 )
             }
         }
@@ -46,7 +48,15 @@ class TaskRepositoryImpl @Inject constructor(
 
         val res = taskDao.getTaskById(taskId)
         return if (res != null) {
-            TaskModel(res.id.toString(), res.title, res.description ?: "", "", "", false)
+            TaskModel(
+                id = res.apiId,
+                title = res.title,
+                description = res.description ?: "",
+                priority = res.priority,
+                status = res.status,
+                isCompleted = res.isCompleted,
+                taskId = res.id
+            )
         } else null
     }
 
