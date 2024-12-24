@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.saber.todoapp.presentation.navigation.ApplicationNavigation
 import com.saber.todoapp.presentation.viewmodel.TaskViewModel
+import com.saber.todoapp.ui.theme.AppColors
 import com.saber.todoapp.ui.theme.TodoAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,7 +32,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             TodoAppTheme {
                 val navController = rememberNavController()
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    contentColor = AppColors.background
+                ) { innerPadding ->
                     Column(modifier = Modifier.padding(innerPadding)) {
                         ApplicationNavigation(navController)
                     }
