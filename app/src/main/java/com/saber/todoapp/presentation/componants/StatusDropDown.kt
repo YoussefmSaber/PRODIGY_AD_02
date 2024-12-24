@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PriorityDropDown() {
-    val priorityList = listOf("Low", "Medium", "High")
-    val selectedOption = remember { mutableStateOf("Low") }
+fun StatusDropDown() {
+    val priorityList = listOf("Pending", "In Progress", "Completed")
+    val selectedOption = remember { mutableStateOf("In Progress") }
     val isExpanded = remember { mutableStateOf(false) }
     ExposedDropdownMenuBox(
         expanded = isExpanded.value,
