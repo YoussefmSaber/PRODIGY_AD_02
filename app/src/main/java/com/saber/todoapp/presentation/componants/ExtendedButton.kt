@@ -9,6 +9,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -21,7 +22,10 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PriorityDropDown() {
+fun PriorityDropDown(
+    modifier: Modifier = Modifier,
+    getPriority: (String) -> Unit = {}
+) {
     val priorityList = listOf("Low", "Medium", "High")
     val selectedOption = remember { mutableStateOf("Low") }
     val isExpanded = remember { mutableStateOf(false) }
@@ -32,7 +36,7 @@ fun PriorityDropDown() {
     ) {
         TextField(
             value = selectedOption.value,
-            modifier = Modifier.menuAnchor(
+            modifier = modifier.menuAnchor(
                 type = MenuAnchorType.PrimaryNotEditable,
                 enabled = true
             ),
@@ -47,16 +51,24 @@ fun PriorityDropDown() {
             },
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
-
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
             )
         )
-        ExposedDropdownMenu(expanded = isExpanded.value,
-            onDismissRequest = { isExpanded.value = false }) {
+        ExposedDropdownMenu(
+            expanded = isExpanded.value,
+            onDismissRequest = { isExpanded.value = false },
+            shape = RoundedCornerShape(12.dp),
+            containerColor = Color.White
+        ) {
             priorityList.forEachIndexed { _, text ->
                 DropdownMenuItem(text = { Text(text) },
                     onClick = {
                         selectedOption.value = text
+                        getPriority(text)
                         isExpanded.value = false
                     })
             }

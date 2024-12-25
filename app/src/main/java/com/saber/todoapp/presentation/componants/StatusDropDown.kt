@@ -21,7 +21,10 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun StatusDropDown() {
+fun StatusDropDown(
+    modifier: Modifier = Modifier,
+    getStatus: (String) -> Unit = {}
+) {
     val priorityList = listOf("Pending", "In Progress", "Completed")
     val selectedOption = remember { mutableStateOf("In Progress") }
     val isExpanded = remember { mutableStateOf(false) }
@@ -32,7 +35,7 @@ fun StatusDropDown() {
     ) {
         TextField(
             value = selectedOption.value,
-            modifier = Modifier.menuAnchor(
+            modifier = modifier.menuAnchor(
                 type = MenuAnchorType.PrimaryNotEditable,
                 enabled = true
             ),
@@ -47,16 +50,25 @@ fun StatusDropDown() {
             },
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedContainerColor = Color.White,
+                unfocusedContainerColor = Color.White,
+                focusedTextColor = Color.Black,
+                unfocusedTextColor = Color.Black
 
             )
         )
-        ExposedDropdownMenu(expanded = isExpanded.value,
-            onDismissRequest = { isExpanded.value = false }) {
+        ExposedDropdownMenu(
+            expanded = isExpanded.value,
+            onDismissRequest = { isExpanded.value = false },
+            shape = RoundedCornerShape(12.dp),
+            containerColor = Color.White
+        ) {
             priorityList.forEachIndexed { _, text ->
                 DropdownMenuItem(text = { Text(text) },
                     onClick = {
                         selectedOption.value = text
+                        getStatus(text)
                         isExpanded.value = false
                     })
             }

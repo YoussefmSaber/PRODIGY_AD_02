@@ -56,8 +56,9 @@ import com.saber.todoapp.common.assets.icons.Show
 fun CustomOutlinedTextField(
     label: String,
     placeholder: String,
-    icon: ImageVector,
+    icon: ImageVector?,
     inputValue: String,
+    minLines: Int = 1,
     onValueChange: (String) -> Unit,
     isPassword: Boolean = false,
 ) {
@@ -75,44 +76,54 @@ fun CustomOutlinedTextField(
         Spacer(Modifier.height(8.dp))
         OutlinedTextField(
             value = inputValue,
+            minLines = minLines,
             onValueChange = {
                 onValueChange(it)
             },
-            leadingIcon = { Icon(imageVector = icon, contentDescription = "$label icon") },
+            leadingIcon = {
+                if (icon != null) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = "$label icon"
+                    )
+                }
+            },
             trailingIcon = {
-                if (isPassword) {
-                    AnimatedContent(
-                        targetState = isPasswordVisible.value, label = "",
-                        transitionSpec = {
-                            (fadeIn(animationSpec = tween(300))).togetherWith(
-                                fadeOut(
-                                    animationSpec = tween(
-                                        300
+                if(icon != null) {
+                    if (isPassword) {
+                        AnimatedContent(
+                            targetState = isPasswordVisible.value, label = "",
+                            transitionSpec = {
+                                (fadeIn(animationSpec = tween(300))).togetherWith(
+                                    fadeOut(
+                                        animationSpec = tween(
+                                            300
+                                        )
                                     )
                                 )
-                            )
-                        }) { targetState ->
-                        IconButton(
-                            onClick = {
-                                isPasswordVisible.value = !isPasswordVisible.value
-                            },
-                        ) {
-                            Icon(
-                                imageVector = if (targetState) Iconly.Hide else Iconly.Show,
-                                contentDescription = if (targetState) "Hide password" else "Show password",
-                            )
+                            }) { targetState ->
+                            IconButton(
+                                onClick = {
+                                    isPasswordVisible.value = !isPasswordVisible.value
+                                },
+                            ) {
+                                Icon(
+                                    imageVector = if (targetState) Iconly.Hide else Iconly.Show,
+                                    contentDescription = if (targetState) "Hide password" else "Show password",
+                                )
+                            }
                         }
                     }
                 }
             },
             shape = RoundedCornerShape(25),
             colors = OutlinedTextFieldDefaults.colors(
-                focusedBorderColor = Green,
+                focusedBorderColor = Gray,
                 unfocusedBorderColor = Gray,
                 focusedLabelColor = Black,
                 unfocusedTextColor = Black,
                 unfocusedLeadingIconColor = Gray,
-                focusedLeadingIconColor = Green,
+                focusedLeadingIconColor = Gray,
                 focusedTextColor = Black
             ),
             textStyle = TextStyle(

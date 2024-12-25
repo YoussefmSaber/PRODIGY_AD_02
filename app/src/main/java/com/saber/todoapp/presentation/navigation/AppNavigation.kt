@@ -1,36 +1,55 @@
 package com.saber.todoapp.presentation.navigation
 
+import androidx.compose.animation.ExperimentalSharedTransitionApi
+import androidx.compose.animation.SharedTransitionLayout
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import com.saber.todoapp.common.Constants
 import com.saber.todoapp.presentation.screens.tasks.AddEditTaskScreen
 import com.saber.todoapp.presentation.screens.tasks.TasksScreen
 import com.saber.todoapp.presentation.viewmodel.TaskViewModel
 
+@OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun ApplicationNavigation(navController: NavHostController, viewModel: TaskViewModel) {
-    NavHost(navController, startDestination = App) {
-        navigation<App>(startDestination = TaskList) {
-            composable<TaskList> {
-                TasksScreen(
-                    viewModel,
-                    navigateToTaskDetails = { taskId ->
-                        navController.navigate(TaskDetails(taskId))
-                    },
-                    navigateToAddTask = {
-                        navController.navigate(EditTask(-1))
-                    })
-            }
-            composable<TaskDetails> {
-                navController.popBackStack()
-            }
-            composable<Profile> {
-                navController.popBackStack()
-            }
-            composable<EditTask> {
-                AddEditTaskScreen()
+    SharedTransitionLayout {
+        NavHost(navController, startDestination = App) {
+            navigation<App>(startDestination = TaskList) {
+                composable<TaskList> {
+                    TasksScreen(
+                        viewModel = viewModel,
+                        navigateToTaskDetails = { taskId ->
+                            navController.navigate(TaskDetails(taskId))
+                        },
+                        navigateToAddTask = {
+                            navController.navigate(EditTask(-1))
+                        },
+                        this
+                    )
+                }
+                composable<TaskDetails> {
+                    navController.popBackStack()
+                }
+                composable<Profile> {
+                    navController.popBackStack()
+                }
+                composable<EditTask> {
+                    AddEditTaskScreen(
+                        viewModel = viewModel,
+                        modifier = Modifier.sharedBounds(
+                            sharedContentState = rememberSharedContentState(Constants.ADD_TASK_SCREEN),
+                            animatedVisibilityScope = this,
+                        ),
+                        onBackClick = {
+                            viewModel.getTasks()
+                            navController.popBackStack()
+                        }
+                    )
+                }
             }
         }
     }

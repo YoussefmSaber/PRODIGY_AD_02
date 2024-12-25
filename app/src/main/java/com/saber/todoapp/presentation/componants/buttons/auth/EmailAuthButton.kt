@@ -15,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.ColorFilter
@@ -22,13 +23,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.saber.todoapp.common.assets.Iconly
 import com.saber.todoapp.common.assets.icons.`Arrow-right-outline`
+import com.saber.todoapp.common.assets.icons.`Plus-outline`
 
 @Composable
-fun EmailAuthButton(text: String, onClick: () -> Unit) {
+fun IconButton(
+    text: String, onClick: () -> Unit,
+    color: Color
+) {
     Button(
         onClick = onClick,
         shape = RoundedCornerShape(25),
-        colors = ButtonDefaults.buttonColors(containerColor = Green),
+        colors = ButtonDefaults.buttonColors(containerColor = color),
         modifier = Modifier.fillMaxWidth()
     ) {
         Row(
@@ -39,7 +44,7 @@ fun EmailAuthButton(text: String, onClick: () -> Unit) {
             Text(text, color = White, fontSize = 16.sp)
             Spacer(Modifier.width(4.dp))
             Image(
-                imageVector = Iconly.`Arrow-right-outline`,
+                imageVector = Iconly.`Plus-outline`,
                 contentDescription = "Arrow",
                 colorFilter = ColorFilter.tint(White),
                 modifier = Modifier.size(20.dp)

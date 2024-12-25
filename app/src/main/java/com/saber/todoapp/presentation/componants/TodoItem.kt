@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.saber.todoapp.data.data_source.db.Task
@@ -28,10 +29,11 @@ import com.saber.todoapp.ui.theme.AppColors
  * @param task The task retried from the database.
  * @param navigateToTaskDetails Lambda function to navigate the user to the task details screen.
  */
+@Preview
 @Composable
 fun TodoItem(
-    navigateToTaskDetails: (Long) -> Unit,
-    task: Task
+    navigateToTaskDetails: (Long) -> Unit = {},
+    task: Task = Task(0, "", "", "", "", false)
 ) {
     // Determine the color based on the task status
     val statusColor = when (task.status) {
@@ -48,7 +50,6 @@ fun TodoItem(
         "High" -> AppColors.priorityHigh
         else -> AppColors.TextSecondary
     }
-
     // Create a card to display the to-do item
     Card(
         shape = RoundedCornerShape(12.dp), // Rounded corners for the card
@@ -65,26 +66,34 @@ fun TodoItem(
             modifier = Modifier.fillMaxWidth(), // Fill the maximum width
         ) {
             // Create a column to arrange the title and description vertically
-            Column(Modifier.padding(16.dp)) {
+            Column(
+                Modifier
+                    .padding(16.dp)
+                    .weight(1f)
+            ) {
                 // Display the title of the to-do item
                 Text(
                     task.title,
                     color = AppColors.TextSecondary, // Text color
+                    maxLines = 1,// Maximum number of lines
                     fontSize = 18.sp // Font size
                 )
                 Spacer(modifier = Modifier.height(8.dp)) // Spacer for vertical spacing
                 // Display the description of the to-do item
-                Text(
-                    task.description ?: "",
-                    color = AppColors.Palette7, // Text color
-                    fontSize = 14.sp, // Font size
-                    overflow = TextOverflow.Ellipsis // Ellipsis for overflow text
-                )
+                task.description?.let {
+                    Text(
+                        it,
+                        color = AppColors.Palette7, // Text color
+                        fontSize = 14.sp, // Font size
+                        maxLines = 1, // Maximum number of lines
+                        overflow = TextOverflow.Ellipsis // Ellipsis for overflow text
+                    )
+                }
             }
 
             // Create a row to arrange the status and priority vertically
             Row(
-                verticalAlignment = Alignment.Bottom // Align the elements at the bottom
+                verticalAlignment = Alignment.Bottom, // Align the elements at the bottom
             ) {
                 // Display the status of the to-do item
                 Box(modifier = Modifier.padding(vertical = 16.dp)) {
