@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.sp
-import com.saber.todoapp.presentation.componants.buttons.auth.LogoutButton
 import com.saber.todoapp.presentation.componants.buttons.BackArrowButton
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -18,7 +17,6 @@ import com.saber.todoapp.presentation.componants.buttons.BackArrowButton
 fun GeneralTopBar(
     title: String,
     isNavigationIcon: Boolean = false,
-    isLogoutIcon: Boolean = false,
     onCLickCallBack: () -> Unit = {},
 ) {
     CenterAlignedTopAppBar(
@@ -43,11 +41,6 @@ fun GeneralTopBar(
             )
         },
         actions = {
-            if (isLogoutIcon) {
-                LogoutButton(onLogoutClickable = {
-
-                })
-            }
         }
     )
 }

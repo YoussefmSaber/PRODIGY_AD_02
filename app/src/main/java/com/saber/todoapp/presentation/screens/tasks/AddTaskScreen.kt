@@ -19,6 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.saber.todoapp.common.assets.Iconly
+import com.saber.todoapp.common.assets.icons.`Plus-outline`
 import com.saber.todoapp.data.data_source.db.Task
 import com.saber.todoapp.presentation.componants.CustomOutlinedTextField
 import com.saber.todoapp.presentation.componants.GeneralTopBar
@@ -102,6 +104,7 @@ fun AddTaskScreen(
             IconButton(
                 text = "Add task",
                 color = AppColors.Palette7,
+                icon = Iconly.`Plus-outline`,
                 onClick = {
                     viewModel.addTask(
                         Task(

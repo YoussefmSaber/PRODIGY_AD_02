@@ -48,7 +48,6 @@ fun SharedTransitionScope.TasksScreen(
         topBar = {
             GeneralTopBar(
                 title = "To-Do App",
-                isLogoutIcon = false
             )
         },
         floatingActionButton = {

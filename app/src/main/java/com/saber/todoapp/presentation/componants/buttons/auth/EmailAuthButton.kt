@@ -16,19 +16,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.saber.todoapp.common.assets.Iconly
-import com.saber.todoapp.common.assets.icons.`Arrow-right-outline`
-import com.saber.todoapp.common.assets.icons.`Plus-outline`
 
 @Composable
 fun IconButton(
     text: String, onClick: () -> Unit,
-    color: Color
+    color: Color,
+    icon: ImageVector
 ) {
     Button(
         onClick = onClick,
@@ -44,7 +42,7 @@ fun IconButton(
             Text(text, color = White, fontSize = 16.sp)
             Spacer(Modifier.width(4.dp))
             Image(
-                imageVector = Iconly.`Plus-outline`,
+                imageVector = icon,
                 contentDescription = "Arrow",
                 colorFilter = ColorFilter.tint(White),
                 modifier = Modifier.size(20.dp)

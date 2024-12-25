@@ -20,6 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.saber.todoapp.common.assets.Iconly
+import com.saber.todoapp.common.assets.icons.Delete
+import com.saber.todoapp.common.assets.icons.`Edit-square`
 import com.saber.todoapp.data.data_source.db.Task
 import com.saber.todoapp.presentation.componants.CustomOutlinedTextField
 import com.saber.todoapp.presentation.componants.GeneralTopBar
@@ -71,7 +74,8 @@ fun TaskDetailsScreen(
                 inputValue = task.description ?: "",
                 minLines = 8,
                 onValueChange = { newDescription ->
-                    task = task.copy(description = newDescription) // Update the task state when description changes
+                    task =
+                        task.copy(description = newDescription) // Update the task state when description changes
                 }
             )
             Text(
@@ -106,8 +110,18 @@ fun TaskDetailsScreen(
             IconButton(
                 text = "Update Task",
                 color = AppColors.Palette7,
+                icon = Iconly.`Edit-square`,
                 onClick = {
                     viewModel.updateTask(task) // Update task in the ViewModel
+                    onBackClick() // Navigate back
+                }
+            )
+            IconButton(
+                text = "Delete Task",
+                color = AppColors.statusPending,
+                icon = Iconly.Delete,
+                onClick = {
+                    viewModel.deleteTask(task) // Update task in the ViewModel
                     onBackClick() // Navigate back
                 }
             )
