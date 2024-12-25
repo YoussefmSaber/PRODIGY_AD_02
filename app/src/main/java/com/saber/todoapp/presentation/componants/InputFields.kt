@@ -56,15 +56,11 @@ import com.saber.todoapp.common.assets.icons.Show
 fun CustomOutlinedTextField(
     label: String,
     placeholder: String,
-    icon: ImageVector?,
+    icon: ImageVector? = null,
     inputValue: String,
     minLines: Int = 1,
     onValueChange: (String) -> Unit,
-    isPassword: Boolean = false,
 ) {
-    // State to manage password visibility
-    val isPasswordVisible = remember { mutableStateOf(isPassword) }
-
     Column {
         Text(
             text = label,
@@ -75,10 +71,10 @@ fun CustomOutlinedTextField(
         )
         Spacer(Modifier.height(8.dp))
         OutlinedTextField(
-            value = inputValue,
+            value = inputValue, // Ensure this value is correctly bound to the state
             minLines = minLines,
-            onValueChange = {
-                onValueChange(it)
+            onValueChange = { newText ->
+                onValueChange(newText) // Update the state in the parent composable
             },
             leadingIcon = {
                 if (icon != null) {
@@ -88,35 +84,7 @@ fun CustomOutlinedTextField(
                     )
                 }
             },
-            trailingIcon = {
-                if(icon != null) {
-                    if (isPassword) {
-                        AnimatedContent(
-                            targetState = isPasswordVisible.value, label = "",
-                            transitionSpec = {
-                                (fadeIn(animationSpec = tween(300))).togetherWith(
-                                    fadeOut(
-                                        animationSpec = tween(
-                                            300
-                                        )
-                                    )
-                                )
-                            }) { targetState ->
-                            IconButton(
-                                onClick = {
-                                    isPasswordVisible.value = !isPasswordVisible.value
-                                },
-                            ) {
-                                Icon(
-                                    imageVector = if (targetState) Iconly.Hide else Iconly.Show,
-                                    contentDescription = if (targetState) "Hide password" else "Show password",
-                                )
-                            }
-                        }
-                    }
-                }
-            },
-            shape = RoundedCornerShape(25),
+            shape = RoundedCornerShape(12.dp),
             colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Gray,
                 unfocusedBorderColor = Gray,
@@ -124,10 +92,12 @@ fun CustomOutlinedTextField(
                 unfocusedTextColor = Black,
                 unfocusedLeadingIconColor = Gray,
                 focusedLeadingIconColor = Gray,
-                focusedTextColor = Black
+                focusedTextColor = Black,
+                focusedContainerColor = White,
+                unfocusedContainerColor = White
             ),
             textStyle = TextStyle(
-                fontSize = 12.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
                 color = Black
             ),
@@ -139,81 +109,7 @@ fun CustomOutlinedTextField(
                     color = Gray
                 )
             },
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(White, shape = RoundedCornerShape(25)),
-            singleLine = true,
-            visualTransformation =
-            if (isPasswordVisible.value) PasswordVisualTransformation() else VisualTransformation.None
+            modifier = Modifier.fillMaxWidth(),
         )
     }
-}
-
-@Composable
-fun SignupInputFields(
-    nameState: MutableState<String>,
-    emailState: MutableState<String>,
-    passwordState: MutableState<String>,
-    confPasswordState: MutableState<String>,
-) {
-    CustomOutlinedTextField(
-        label = "Name",
-        placeholder = "Enter Name",
-        icon = Iconly.Profile,
-        inputValue = nameState.value,
-        onValueChange = { nameState.value = it },
-        isPassword = false
-    )
-    CustomOutlinedTextField(
-        label = "Email",
-        placeholder = "Enter Email",
-        icon = Iconly.Message,
-        inputValue = emailState.value,
-        onValueChange = { emailState.value = it },
-        isPassword = false
-    )
-    CustomOutlinedTextField(
-        label = "Password",
-        placeholder = "Enter Password",
-        icon = Iconly.Password,
-        inputValue = passwordState.value,
-        onValueChange = { passwordState.value = it },
-        isPassword = true
-    )
-    CustomOutlinedTextField(
-        label = "Confirm Password",
-        placeholder = "Retype Password",
-        icon = Iconly.Password,
-        inputValue = confPasswordState.value,
-        onValueChange = {
-            confPasswordState.value = it
-            if (confPasswordState.value != passwordState.value) {
-                Log.d("TAG", "Passwords do not match")
-            }
-        },
-        isPassword = true
-    )
-}
-
-@Composable
-fun LoginInputFields(
-    emailState: MutableState<String>,
-    passwordState: MutableState<String>,
-) {
-    CustomOutlinedTextField(
-        label = "Email",
-        placeholder = "Enter Email",
-        icon = Iconly.Message,
-        inputValue = emailState.value,
-        onValueChange = { emailState.value = it },
-        isPassword = false
-    )
-    CustomOutlinedTextField(
-        label = "Password",
-        placeholder = "Enter Password",
-        icon = Iconly.Password,
-        inputValue = passwordState.value,
-        onValueChange = { passwordState.value = it },
-        isPassword = true
-    )
 }

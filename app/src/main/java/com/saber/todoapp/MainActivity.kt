@@ -24,12 +24,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             TodoAppTheme {
                 val navController = rememberNavController()
-                val viewModel: TaskViewModel by viewModels()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     contentColor = AppColors.background
                 ) {
-                    ApplicationNavigation(navController, viewModel)
+                    ApplicationNavigation(navController)
                 }
             }
         }

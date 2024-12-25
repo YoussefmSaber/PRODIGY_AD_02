@@ -21,19 +21,14 @@ class TaskRepositoryImpl @Inject constructor(
         }
     }
 
-    suspend fun getTaskById(taskId: Long): Task? {
-        // Example: Fetch task by ID from the database or API
-        val res = taskDao.getTaskById(taskId)
-        return if (res != null) {
-            Task(
-                title = res.title,
-                description = res.description ?: "",
-                priority = res.priority,
-                status = res.status,
-                isCompleted = res.isCompleted,
-                id = res.id
-            )
-        } else null
+    fun getTaskById(taskId: Long): Flow<Resource<Task>> = flow {
+        try {
+            emit(Resource.Loading())
+            val task = taskDao.getTaskById(taskId)
+            emit(Resource.Success(task))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+        }
     }
 
     fun addTask(task: Task) = flow {
@@ -46,13 +41,23 @@ class TaskRepositoryImpl @Inject constructor(
         }
     }
 
-    suspend fun updateTask(task: Task) {
-        // Example: Update task in the database or API
-        taskDao.updateTask(task)
+    fun updateTask(task: Task) = flow {
+        try {
+            emit(Resource.Loading())
+            taskDao.updateTask(task)
+            emit(Resource.Success(task))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+        }
     }
 
-    suspend fun deleteTask(task: Task) {
-        // Example: Delete task from the database or API
-        taskDao.deleteTask(task)
+    fun deleteTask(task: Task) = flow {
+        try {
+            emit(Resource.Loading())
+            taskDao.deleteTask(task)
+            emit(Resource.Success(task))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
+        }
     }
 }

@@ -22,5 +22,5 @@ interface TaskDao {
     suspend fun getAllTasks(): List<Task>
 
     @Query("SELECT * FROM tasks WHERE id = :taskId LIMIT 1")
-    suspend fun getTaskById(taskId: Long): Task?
+    suspend fun getTaskById(taskId: Long): Task
 }

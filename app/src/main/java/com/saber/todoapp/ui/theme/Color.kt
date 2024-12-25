@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 object AppColors {
     val Palette1 = Color(0xFF4A4A6A) // Dark Blue
     val Palette2 = Color(0xFF7AACA8) // Teal
+    val Palette3 = Color(0xFF91A09E)
     val Palette4 = Color(0xFFC184A6) // Purple
 
     val Palette7 = Color(0xFF6E6563) // Dark Taupe

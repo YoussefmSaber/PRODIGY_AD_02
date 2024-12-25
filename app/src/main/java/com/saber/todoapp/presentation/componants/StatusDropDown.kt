@@ -23,10 +23,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun StatusDropDown(
     modifier: Modifier = Modifier,
+    defaultValue: String = "In Progress",
     getStatus: (String) -> Unit = {}
 ) {
     val priorityList = listOf("Pending", "In Progress", "Completed")
-    val selectedOption = remember { mutableStateOf("In Progress") }
+    val selectedOption = remember { mutableStateOf(defaultValue) }
     val isExpanded = remember { mutableStateOf(false) }
     ExposedDropdownMenuBox(
         expanded = isExpanded.value,

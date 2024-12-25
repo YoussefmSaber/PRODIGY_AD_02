@@ -16,26 +16,32 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.saber.todoapp.common.Constants
+import com.saber.todoapp.data.data_source.db.Task
 import com.saber.todoapp.presentation.componants.GeneralTopBar
 import com.saber.todoapp.presentation.componants.TodoItem
 import com.saber.todoapp.presentation.viewmodel.TaskViewModel
 import com.saber.todoapp.ui.theme.AppColors
+import kotlinx.coroutines.Dispatchers
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
 fun SharedTransitionScope.TasksScreen(
     viewModel: TaskViewModel = hiltViewModel(),
-    navigateToTaskDetails: (Long) -> Unit = {},
+    navigateToTaskDetails: (Task) -> Unit = {},
     navigateToAddTask: () -> Unit = {},
     animatedContentScope: AnimatedContentScope
 ) {
-    viewModel.getTasks()
+    LaunchedEffect(Dispatchers.IO) {
+        viewModel.getTasks()
+    }
+
     val task = viewModel.tasks.collectAsState()
     Scaffold(
         containerColor = AppColors.background,

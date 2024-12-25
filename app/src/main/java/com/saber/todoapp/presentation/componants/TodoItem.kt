@@ -32,7 +32,7 @@ import com.saber.todoapp.ui.theme.AppColors
 @Preview
 @Composable
 fun TodoItem(
-    navigateToTaskDetails: (Long) -> Unit = {},
+    navigateToTaskDetails: (Task) -> Unit = {},
     task: Task = Task(0, "", "", "", "", false)
 ) {
     // Determine the color based on the task status
@@ -58,7 +58,7 @@ fun TodoItem(
         ),
         elevation = CardDefaults.elevatedCardElevation(4.dp), // Elevation of the card
         modifier = Modifier.fillMaxWidth(), // Fill the maximum width
-        onClick = { navigateToTaskDetails(task.id) }
+        onClick = { navigateToTaskDetails(task) }
     ) {
         // Create a row to arrange the content horizontally
         Row(

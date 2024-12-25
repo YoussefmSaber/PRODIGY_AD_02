@@ -9,43 +9,64 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.saber.todoapp.common.Constants
-import com.saber.todoapp.presentation.screens.tasks.AddEditTaskScreen
+import com.saber.todoapp.data.data_source.db.Task
+import com.saber.todoapp.presentation.screens.tasks.AddTaskScreen
+import com.saber.todoapp.presentation.screens.tasks.TaskDetailsScreen
 import com.saber.todoapp.presentation.screens.tasks.TasksScreen
-import com.saber.todoapp.presentation.viewmodel.TaskViewModel
 
 @OptIn(ExperimentalSharedTransitionApi::class)
 @Composable
-fun ApplicationNavigation(navController: NavHostController, viewModel: TaskViewModel) {
+fun ApplicationNavigation(navController: NavHostController) {
     SharedTransitionLayout {
         NavHost(navController, startDestination = App) {
             navigation<App>(startDestination = TaskList) {
                 composable<TaskList> {
                     TasksScreen(
-                        viewModel = viewModel,
-                        navigateToTaskDetails = { taskId ->
-                            navController.navigate(TaskDetails(taskId))
+                        navigateToTaskDetails = { task ->
+                            navController.navigate(
+                                TaskDetails(
+                                    taskId = task.id,
+                                    taskTitle = task.title,
+                                    taskDescription = task.description ?: "",
+                                    taskPriority = task.priority,
+                                    taskStatus = task.status
+                                )
+                            )
                         },
                         navigateToAddTask = {
-                            navController.navigate(EditTask(-1))
+                            navController.navigate(AddTask)
                         },
-                        this
+                        animatedContentScope = this
                     )
                 }
-                composable<TaskDetails> {
-                    navController.popBackStack()
+                composable<TaskDetails> { backStackEntry ->
+                    val taskId = backStackEntry.arguments?.getLong("taskId")
+                    val taskTitle = backStackEntry.arguments?.getString("taskTitle")
+                    val taskDescription = backStackEntry.arguments?.getString("taskDescription")
+                    val taskPriority = backStackEntry.arguments?.getString("taskPriority")
+                    val taskStatus = backStackEntry.arguments?.getString("taskStatus")
+
+                    if (taskId != null) {
+                        TaskDetailsScreen(
+                            initialTask = Task(
+                                id = taskId,
+                                title = taskTitle ?: "",
+                                description = taskDescription ?: "",
+                                priority = taskPriority ?: "",
+                                status = taskStatus ?: "",
+                                isCompleted = false
+                            ),
+                            onBackClick = { navController.popBackStack() }
+                        )
+                    }
                 }
-                composable<Profile> {
-                    navController.popBackStack()
-                }
-                composable<EditTask> {
-                    AddEditTaskScreen(
-                        viewModel = viewModel,
+                composable<AddTask> {
+                    AddTaskScreen(
                         modifier = Modifier.sharedBounds(
                             sharedContentState = rememberSharedContentState(Constants.ADD_TASK_SCREEN),
                             animatedVisibilityScope = this,
                         ),
                         onBackClick = {
-                            viewModel.getTasks()
                             navController.popBackStack()
                         }
                     )

@@ -30,7 +30,7 @@ import com.saber.todoapp.ui.theme.AppColors
 
 @Preview
 @Composable
-fun AddEditTaskScreen(
+fun AddTaskScreen(
     modifier: Modifier = Modifier,
     viewModel: TaskViewModel = hiltViewModel(),
     onBackClick: () -> Unit = {}
@@ -67,7 +67,7 @@ fun AddEditTaskScreen(
                 placeholder = "Enter the task description...",
                 icon = null,
                 inputValue = descriptionText.value,
-                minLines = 4,
+                minLines = 8,
                 onValueChange = {
                     descriptionText.value = it
                 },

@@ -24,10 +24,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PriorityDropDown(
     modifier: Modifier = Modifier,
+    defaultValue: String = "Low",
     getPriority: (String) -> Unit = {}
 ) {
     val priorityList = listOf("Low", "Medium", "High")
-    val selectedOption = remember { mutableStateOf("Low") }
+    val selectedOption = remember { mutableStateOf(defaultValue) }
     val isExpanded = remember { mutableStateOf(false) }
     ExposedDropdownMenuBox(
         expanded = isExpanded.value,
