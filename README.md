@@ -15,18 +15,16 @@ A productivity-focused mobile application built for Android that allows users to
 This project is part of the **PRODIGY Android Development Internship** and was developed as the **second task** of the internship program. The task involved building a fully functional Android application to showcase proficiency in:
 
 - **Room Database**: Implementing local data persistence using Room for offline capabilities.
-- **Supabase Integration**: Integrating Supabase for user authentication and data syncing.
 - **Clean Architecture**: Structuring the project with Clean Architecture principles for scalability and maintainability.
 - **Jetpack Compose**: Building modern UIs with Jetpack Compose, following best practices for a reactive UI design.
 - **Dependency Injection with Hilt**: Using Hilt for efficient dependency management and ensuring a modular, testable codebase.
 
-Through this task, I have enhanced my skills in using **Room**, **Supabase**, and **Hilt**, as well as designing maintainable applications that are easy to extend and test. This project is a step forward in my journey to becoming proficient in Android development.
+Through this task, I have enhanced my skills in using **Room** and **Hilt**, as well as designing maintainable applications that are easy to extend and test. This project is a step forward in my journey to becoming proficient in Android development.
 
 ## Tech Stack
 
 - **Android**: Kotlin, Jetpack Compose
 - **Database**: Room Database for local storage
-- **Backend**: Supabase for user authentication and cloud data synchronization
 - **Dependency Injection**: Hilt
 - **Architecture**: Clean Architecture with separation of concerns (Repositories, Use Cases, ViewModel)
 - **UI**: Jetpack Compose with a reactive UI powered by StateFlow
@@ -51,20 +49,12 @@ Open Android Studio and select **Open an Existing Project**, then navigate to th
 
 Ensure that all the required dependencies are added in the `build.gradle` files. The project uses the following key dependencies:
 - `Room Database`
-- `Supabase SDK`
 - `Hilt for Dependency Injection`
 - `Jetpack Compose`
 
 You can sync the project dependencies by clicking **Sync Now** in Android Studio after opening the project.
 
-### 4. Set Up Supabase
-
-1. Create a Supabase account and set up a new project: [Supabase](https://supabase.io/).
-2. Configure Supabase authentication and tasks API in your project (if needed). You'll typically need to:
-   - Set up a Supabase database and API.
-   - Add Supabase project credentials to the app's `strings.xml` or environment variables.
-
-### 5. Build and Run the Project
+### 4. Build and Run the Project
 
 1. Ensure your Android emulator or device is running.
 2. In Android Studio, click **Run** (the green arrow) to build and launch the app.
@@ -75,47 +65,45 @@ The project follows a clean architecture approach with well-defined layers and m
 
 ```
 app
-|-- di                             // Dependency Injection modules
-|    |-- task                       // Task-related DI modules
-|    |    |-- TaskModule.kt          // Provides Task repository and use case
-|    |-- data_source                // Data source modules (API, DB)
-|    |    |-- SupabaseModule.kt      // Provides Supabase client and services
-|    |    |-- RoomModule.kt          // Provides Room DB and DAO services
+|-- common                             // Shared resources and utilities used across the app
+|    |-- icons                         // Reusable icon assets
+|    |-- resources                    // Resource management (e.g., strings, colors, themes)
 |
-|-- data                           // Data sources (Room, Supabase)
-|    |-- repository                  // Repository layer
-|    |    |-- AuthRepository.kt      // Auth repository interface
-|    |    |-- TaskRepository.kt      // Task repository interface
-|    |-- data_source                 // Data sources (API, DB)
-|    |    |-- db                     // Room DB services
-|    |    |    |-- TaskDao.kt        // Task DAO interface
-|    |    |    |-- TaskDatabase.kt   // Room database setup
-|    |    |    |-- TaskEntity.kt     // Room database's table
+|-- di                                  // Dependency Injection modules
+|    |-- data_source                   // Data source modules (API, DB, etc.)
+|    |    |-- RoomModule.kt            // Provides Room DB and DAO services
 |
-|-- domain                         // Business logic (Use cases, Repositories)
-|    |-- model                      // Data models (TaskModel, AuthSession, etc.)
-|    |    |-- TaskModel.kt           // Task data model
-|    |    |-- AuthSession.kt         // Auth session model
-|    |-- repository                 // Repository implementations
-|    |    |-- AuthRepositoryImpl.kt // Implementation of AuthRepository
-|    |    |-- TaskRepositoryImpl.kt // Implementation of TaskRepository
-|    |-- usecase                    // Use cases
-|    |    |-- auth                   // Auth-related use cases
-|    |    |    |-- AuthUseCase.kt    // Auth-related use case
-|    |    |-- task                   // Task-related use cases
-|    |    |    |-- TaskUseCase.kt    // Task-related use case
-|-- presentation                   // UI components (Compose UI, ViewModels)
-|    |-- screens                    // Screen-specific composables (UI)
-|    |-- viewmodel                  // ViewModel classes for screens
-|    |    |-- TaskViewModel.kt       // ViewModel for tasks screen
-|    |    |-- AuthViewModel.kt       // ViewModel for auth screen
+|-- data                                // Data sources and repositories
+|    |-- data_source                   // Data sources (API, DB)
+|    |    |-- db                        // Room database services
+|    |    |    |-- TaskDao.kt          // Task DAO interface
+|    |    |    |-- TaskDatabase.kt     // Room database setup
+|    |    |    |-- TaskEntity.kt       // Room database table entity
+|
+|-- domain                              // Business logic and core functionality
+|    |-- repository                     // Repository implementations
+|    |    |-- TaskRepositoryImpl.kt     // Task repository implementation
+|
+|-- presentation                        // UI components and navigation
+|    |-- components                     // Reusable composable components used in screens
+|    |
+|    |-- screens                        // Screen-specific composables (UI)
+|    |    |-- AddTaskScreen.kt           // UI for adding a new task
+|    |    |-- TaskDetailsScreen.kt      // UI for viewing and updating task details
+|    |    |-- TasksScreen.kt            // UI for viewing and managing all tasks
+|    |
+|    |-- viewmodel                      // ViewModel classes for screen logic
+|    |    |-- TaskViewModel.kt          // ViewModel for managing tasks
+|    |
+|    |-- navigation                     // Navigation setup and endpoints
+|    |    |-- AppNavigation.kt          // Contains the navigation graph for the app
+|    |    |-- ScreensEndpoint.kt        // Contains all the screen endpoints (routes) for the app
 
 ```
 
 ### Key Components
 
 - **RoomModule.kt**: Provides Room Database dependencies (AppDatabase and TaskDao).
-- **SupabaseModule.kt**: Provides Supabase client dependencies.
 - **TaskRepositoryModule.kt**: Provides dependencies for Task repository.
 - **TaskUseCaseModule.kt**: Provides dependencies for Task use cases.
 - **TaskRepository**: Handles data operations from Room and Supabase.
