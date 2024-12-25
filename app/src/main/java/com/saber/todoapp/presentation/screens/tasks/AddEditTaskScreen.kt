@@ -8,12 +8,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color.Companion.Black
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.saber.todoapp.data.data_source.db.Task
 import com.saber.todoapp.presentation.componants.CustomOutlinedTextField
@@ -33,8 +37,8 @@ fun AddEditTaskScreen(
 ) {
     val titleText = remember { mutableStateOf("") }
     val descriptionText = remember { mutableStateOf("") }
-    val priorityText = remember { mutableStateOf("") }
-    val statusText = remember { mutableStateOf("") }
+    val priorityText = remember { mutableStateOf("Low") }
+    val statusText = remember { mutableStateOf("In Progress") }
 
     Scaffold(containerColor = AppColors.Palette2,
         topBar = {
@@ -58,7 +62,6 @@ fun AddEditTaskScreen(
                     titleText.value = it
                 },
             )
-            Spacer(Modifier.height(16.dp))
             CustomOutlinedTextField(
                 label = "Task Description",
                 placeholder = "Enter the task description...",
@@ -69,14 +72,27 @@ fun AddEditTaskScreen(
                     descriptionText.value = it
                 },
             )
-            Spacer(Modifier.height(16.dp))
+            Text(
+                text = "Priority",
+                fontSize = 14.sp,
+                color = Black,
+                fontWeight = FontWeight.Normal,
+                modifier = Modifier.padding(start = 8.dp)
+            )
+
             PriorityDropDown(
                 modifier = Modifier.fillMaxWidth(),
                 getPriority = { priority ->
                     priorityText.value = priority
                 }
             )
-            Spacer(Modifier.height(16.dp))
+            Text(
+                text = "Status",
+                fontSize = 14.sp,
+                color = Black,
+                fontWeight = FontWeight.Normal,
+                modifier = Modifier.padding(start = 8.dp)
+            )
             StatusDropDown(modifier = Modifier.fillMaxWidth(),
                 getStatus = { status ->
                     statusText.value = status
