@@ -106,7 +106,6 @@ fun TaskDetailsScreen(
                     task = task.copy(status = newStatus) // Update the task's status
                 }
             )
-            Spacer(Modifier.height(32.dp))
             IconButton(
                 text = "Update Task",
                 color = AppColors.Palette7,
