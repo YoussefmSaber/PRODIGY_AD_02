@@ -31,18 +31,13 @@ Through this task, I have enhanced my skills in using **Room** and **Hilt**, as 
 
 ## Screenshots for the application
 <div style="display: flex; justify-content: space-around; align-items: center;">
-
   <div style="text-align: center; margin: 10px;">
     <h4>Home screen</h4>
     <img src="src/Home-Screen.png" alt="Screenshot 1" width="200">
-  </div>
-
-  <div style="text-align: center; margin: 10px;">
+  </div><div style="text-align: center; margin: 10px;">
     <h4>Add new task</h4>
     <img src="src/Add-new-task.png" alt="Screenshot 2" width="200">
-  </div>
-
-  <div style="text-align: center; margin: 10px;">
+  </div><div style="text-align: center; margin: 10px;">
     <h4>Task details</h4>
     <img src="src/Task-details.png" alt="Screenshot 3" width="200">
   </div>
