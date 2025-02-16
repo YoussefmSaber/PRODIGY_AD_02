@@ -8,7 +8,7 @@ A productivity-focused mobile application built for Android that allows users to
 - **Offline Support**: Persist tasks locally using Room Database for offline functionality.
 - **Supabase Integration**: Sync tasks with the cloud using Supabase, enabling cross-device data sync.
 - **ViewModel & StateFlow**: Utilize ViewModel and StateFlow to manage UI state and data flows for a responsive UI.
-- **Dependency Injection**: Leverage Hilt for dependency injection, simplifying the code structure and improving testability.
+- **Dependency Injection**: Dagger Hilt for dependency injection, simplifying the code structure and improving testability.
 
 ## PRODIGY Android Development Internship
 
